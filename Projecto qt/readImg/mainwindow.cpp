@@ -22,44 +22,47 @@ void MainWindow::captureIMG()
     clock_t prevTimestamp = 0;
     int delay = 200;
     VideoCapture capDer(0);
-    //VideoCapture capIzq(0);
+    VideoCapture capIzq(1);
 
     //system("mkdir Capturas");
     while(true)
     {
         capDer>>frameD;
-        //capIzq>>frameI;
+        capIzq>>frameI;
 
         EncontradoD = false;
+        EncontradoI = false;
         blinkOutput = false;
 
         c=waitKey(10);
 
         EncontradoD=findChessboardCorners(frameD,Size(PatternWidth,PatternHeight),pointBufR,CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FAST_CHECK | CV_CALIB_CB_NORMALIZE_IMAGE);
+        EncontradoI=findChessboardCorners(frameI,Size(PatternWidth,PatternHeight),pointBufL,CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FAST_CHECK | CV_CALIB_CB_NORMALIZE_IMAGE);
 
         if(c==27||cont==numFotos) break;
-        else if(EncontradoD) //&& clock() - prevTimestamp > delay*1e-3*CLOCKS_PER_SEC )
+        else if(EncontradoD && EncontradoI && clock() - prevTimestamp > delay*1e-3*CLOCKS_PER_SEC )
         {
             cont++;
 
             //cvtColor(frameD,GrisD,CV_RGB2GRAY);
             //cvtColor(frameI,GrisI,CV_RGB2GRAY);
 
-            //msgIzq.str("");
-            RightStrm.str("");
+            msgIzq.str("");
+            msgDer.str("");
 
-            //msgIzq<<"Capturas/izq_"<<cont<<".jpg";
-            RightStrm<<"Capturas/der_"<<cont<<".jpg";
+            msgIzq<<"Capturas/izq_"<<cont<<".jpg";
+            msgDer<<"Capturas/der_"<<cont<<".jpg";
 
-           // nombreIzq=msgIzq.str();
-            RightName=RightStrm.str();
+            nombreIzq=msgIzq.str();
+            nombreDer=msgDer.str();
 
-            //imwrite(nombreIzq,GrisI);
-            imwrite(RightName,GrisD);
+            imwrite(nombreIzq,GrisI);
+            imwrite(nombreDer,GrisD);
 
             prevTimestamp = clock();
 
             bitwise_not(frameD,frameD);
+            bitwise_not(frameI,frameI);
 
             blinkOutput = true;
 
@@ -69,7 +72,11 @@ void MainWindow::captureIMG()
         if(EncontradoD)
             drawChessboardCorners(frameD,Size(PatternWidth, PatternHeight),Mat(pointBufR), true);
 
+        if(EncontradoI)
+            drawChessboardCorners(frameI,Size(PatternWidth, PatternHeight),Mat(pointBufL), true);
+
         imshow("Vista previa Derecha.",frameD);
+        imshow("Vista previa Izquierda.",frameI);
 
         if(blinkOutput)
             waitKey(delay/2);

@@ -24,15 +24,15 @@ public:
     void help();
 private:
     Ui::MainWindow *ui;
-    stringstream msgIzq,RightStrm,despContador;
-    string nombreIzq,RightName;
+    stringstream msgIzq, msgDer,despContador;
+    string nombreIzq,nombreDer;
     Mat frameD,frameI,GrisD,GrisI;
     char c;
     int cont = 0;
     int numFotos = 25;
-    bool EncontradoD,blinkOutput;
-    int PatternWidth = 8, PatternHeight = 6;
-    vector<Point2f> pointBufR;
+    bool EncontradoD,EncontradoI,blinkOutput;
+    int PatternWidth = 7, PatternHeight = 5;
+    vector<Point2f> pointBufR,pointBufL;
 };
 
 #endif // MAINWINDOW_H
