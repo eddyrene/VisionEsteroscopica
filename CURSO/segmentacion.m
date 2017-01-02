@@ -5,7 +5,7 @@ pkg load image;
 
 
 I=imread('img1.jpg');
-imshow(I)
+imshow(I);
 figure
 
 Ig=rgb2gray(I);
@@ -37,7 +37,7 @@ imshow(CBW)
 
 %CBWU=uint8(CBW);
 
-IUB=and(Ib,CBW)
+IUB=and(Ib,CBW);
 figure
 imshow(IUB)
 title('Imagen de bordes y segmentos');
@@ -49,6 +49,6 @@ title('Imagen etiquetada');
 
 O=objeto(IL,126);
 figure
-imshow(O)
+imshow(O);
 
 input("Nada");

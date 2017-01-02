@@ -44,8 +44,8 @@ void MainWindow::captureIMG()
         {
             cont++;
 
-            //cvtColor(frameD,GrisD,CV_RGB2GRAY);
-            //cvtColor(frameI,GrisI,CV_RGB2GRAY);
+            cvtColor(frameD,GrisD,CV_RGB2GRAY);
+            cvtColor(frameI,GrisI,CV_RGB2GRAY);
 
             msgIzq.str("");
             msgDer.str("");
